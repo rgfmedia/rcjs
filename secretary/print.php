@@ -117,11 +117,8 @@ Date of collection as of  <?php echo date('m/d/Y' ,strtotime($getfrom)); ?> to <
                 <th>CUSTOMER NAME</th>
                 <th>DATE OF DELIVERY</th>
                 <th>NO. OF HEADS</th>
-                <th>KILOS</th>
-                <th>PRICE</th>
-                <th>DELIVERY TOTAL</th>
+                <th>PRICE</th>            
                 <th>COLLECTION</th>
-                <th>TOTAL BALANCE</th>
                 <th>DATE OF COLLECTION</th>
                 <th>COLLECTOR NAME</th>
                 <!-- <th>DAMAGE</th>
