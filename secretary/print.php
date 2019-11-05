@@ -59,42 +59,13 @@ border: solid 1px;
 }
 
   </style>
-<body id="print" onload="window.print()">
+<!-- <body id="print" onload="window.print()"> -->
+
+<body>
 
 
-<?php
-
-echo "<script type='text/javascript'>
-          $(document).ready(function(){
-          $('#print').modal('show');
-          });
-          </script>";
-
-
-include '../backend/db.php';
-    if (isset($_POST['search'])) {
-
-
-        $from = $_POST['from'];
-        $to = $_POST['to'];
-        $customer = $_POST['tname'];
-
-        $sql = "SELECT * FROM collectibles WHERE customer='$customer' AND date_collected BETWEEN '$from' AND '$to' ORDER BY id ASC";
-
-    }
-
-    $result = mysqli_query($link, $sql);
-    $data = mysqli_fetch_assoc($result);
-
-
-?>
-<?php if (empty($data)): ?>
-  <br>
-  <center> No Records Found.</center> 
-<?php else: ?>
-    <div class="container-fluid">
-
-        <table border="0">
+<div class="container-fluid">
+<table border="0">
 <tr>
 <th width="45%"> <img class="m" src="../img/pig.png" width="100px" height="100px" align="right"></i></th>
 <th width="55%"><p class="p"><strong>RCSJ LIVESTOCK DEALER</strong><br>
@@ -105,7 +76,7 @@ include '../backend/db.php';
 </table>
 
 <center>
-Date of collection as of  <?php echo date('m/d/Y' ,strtotime($getfrom)); ?> to <?php echo date('m/d/Y' ,strtotime($getto)); ?>
+Date of collection as of  <!-- <?php echo date('m/d/Y' ,strtotime($getfrom)); ?> --> to <!-- <?php echo date('m/d/Y' ,strtotime($getto)); ?> -->
 </center>
 <p class="pull-left">
     CUSTOMER COPY
@@ -126,95 +97,33 @@ Date of collection as of  <?php echo date('m/d/Y' ,strtotime($getfrom)); ?> to <
             </tr>
         </thead>
         <tbody>
-            <?php 
-                $name1=array();
-                $keyrow=array();
-                $array_date=array();
-                $name='';
-                $dates='';
-                $pskey=0;
-                $name2='';
-                $rowspan=1;
-                $total=0;
-                $tac=0;
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
 
-
-
-                foreach ($result as $key => $value) { 
-
-                    $rowspan+=$key;
-                    $tac = $value['tac'];
-                    //$totalCollectibles+=$value['price']*$value['total_kilo'] - $value['tac'];
-                    $name1[]=$value;
-                    if (!in_array($value['date_delivery'], $array_date)) {
-                        $total += $value['price']*$value['total_kilo'];
-                    }
-                    $array_date[]=$value['date_delivery'];
-                    
-                }
-                $total = $total-$tac;
-
-                $array_date=array();
-
-                foreach ($result as $key => $value) {
-                    if ($name2 != $value['collector_name'] OR $dates != $value['date_collected']) {
-                        foreach ($name1 as $k => $names) {
-                            if ($names['collector_name'] == $value['collector_name'] AND $names['date_collected'] == $value['date_collected']) {
-                                $pskey++;
-                            unset($name1[$k]);
-                            } else { break; }
-                        }
-                        $keyrow[$key] = $pskey;
-                    }
-                    $name2 = $value['collector_name']; $dates = $value['date_collected']; $pskey = 0;
-                }
-                $dates = '';
-                foreach ($result as $key => $value): ?>
-
-                    
-                    
-                    <tr>
-                        <?php if ($key==0): ?>
-                            <td rowspan="<?php echo $rowspan; ?>"><?php echo $value['customer']; ?> </td>     
-                        <?php endif ?>                        
-                        
-                        <?php if (!in_array($value['date_delivery'], $array_date)): ?>
-                            <td><?php echo $value['date_delivery']; ?> </td>
-                            <td><?php echo $value['number_of_heads']; ?> </td>
-                            <td><?php echo $value['total_kilo']; ?> </td>
-                            <td><?php echo $value['price']; ?> </td>
-                            <td><?php echo number_format($value['total_kilo'] * $value['price']); ?> </td>
-                        <?php else: ?>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        <?php endif ?>
-
-                        <?php if ($name != $value['collector_name'] OR $dates != $value['date_collected']): ?>
-                            <td rowspan="<?php echo $keyrow[$key]; ?>"><?php echo number_format($value['collections']); ?> </td>    
-                        <?php endif ?>
-                        
-
-                        <?php if ($key==0): ?>
-                            <td rowspan="<?php echo $rowspan; ?>"><?php echo number_format($total); ?> </td>     
-                        <?php endif ?>
-                        
-                        <?php if ($name != $value['collector_name'] OR $dates != $value['date_collected']): ?>
-                            <td rowspan="<?php echo $keyrow[$key]; ?>"><?php echo $value['date_collected']; ?> </td>
-                            
-                            <td rowspan="<?php echo $keyrow[$key]; ?>"><?php echo $value['collector_name'] ?> </td>
-                        <?php endif ?>
-                        
-                    </tr>    
-                    
-                <?php $name = $value['collector_name']; $array_date[]=$value['date_delivery']; $dates = $value['date_collected']; endforeach; ?>
+            </tr>
+            <tr>
+                <th>Total Delivery</th>
+                <th colspan="6"></th> 
+            </tr>
+             <tr>
+                <th>Total Collection</th>
+                <th colspan="6"></th> 
+            </tr>
+             <tr>
+                <th>Total Balance</th>
+                <th colspan="6"></th> 
+            </tr>
                     
         </tbody>
     </table>
 </div>
-<?php endif; ?>
+
 
 </html>
 </body>

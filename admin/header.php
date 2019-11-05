@@ -37,6 +37,9 @@ background-color: #4f74df;
     tbody{
       color: black;
     }
+    .kumprada{
+      width: 450px;
+    }
   </style>
 
 </head>
@@ -173,6 +176,12 @@ background-color: #4f74df;
     <li class="nav-item">
       <a class="nav-link" href="bali.php"><i class="fas fa-fw fa-coins fa-sm fa-fw mr-2 text-gray-400"></i>
         <span>Bali</span>
+      </a>
+    </li>
+
+<li class="nav-item">
+      <a class="nav-link" href="capital.php"><i class="fas fa-fw fa-coins fa-sm fa-fw mr-2 text-gray-400"></i>
+        <span>Capital</span>
       </a>
     </li>
 

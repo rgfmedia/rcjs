@@ -153,6 +153,9 @@
                 </tbody>
             </table>
         </div>
+            <ul>
+                <li>Collectibles = SALE - COLLECTIONS</li>
+            </ul>
             <br>
             <hr>
             <br>
@@ -169,6 +172,14 @@
 
                 
             ?>
+
+            <ul>
+                <li>Stockyards Salin = KUMPRADA - TOTAL SALE</li>
+                <li>Total kilos dli eh apil ang FEEDS</li>
+                <li>Ang SUBMIT mo adto na sa ADMIN sa KAPITAL mao nai mo adto sa ubos sa KAPITAL nga page <br> 
+                pareha rag porma then every submit sa is 1 Transaction.</li>
+            </ul>
+            
             <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
@@ -180,13 +191,28 @@
                 <tbody>
                     <tr>
                         <td><b>STOCKYARDS SALIN</b></td>
-                        <td><?php echo $valSqlKumpradaOld['totalHeads']; ?></td>
-                        <td><?php echo $valSqlKumpradaOld['totalKilos']; ?></td>
+                        <td><input type="" name="" class="form-control" value="<?php echo $valSqlKumpradaOld['totalHeads']; ?>"></td>
+                        <td><input type="" name="" class="form-control" value="<?php echo $valSqlKumpradaOld['totalKilos']; ?>"></td>
                     </tr>
                     <tr>
                         <td><b>TOTAL SALE</b></td>
-                        <td><?php echo $inventoryHeads; ?></td>
-                        <td><?php echo $inventoryKilos; ?></td>
+                        <td><input type="" name="" class="form-control" value="<?php echo $inventoryHeads; ?>"></td>
+                        <td><input type="" name="" class="form-control" value="<?php echo $inventoryKilos; ?>"></td>
+                    </tr>
+                    <tr>
+                        <td><b>SALIN</b></td>
+                        <td><input type="text" name="salinTH" class="form-control" value=""></td>
+                        <td><input type="text" name="salinTK" class="form-control" value=""></td>
+                    </tr>
+                    <tr>
+                        <td><b>RIP</b></td>
+                        <td><input type="text" name="rip" class="form-control" value=""></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                       
+                        <td></td>
                     </tr>
                     <?php if (!empty($valSqlKumpradaNew['newTotalHeads'])): ?>
                         <tr>
@@ -194,7 +220,13 @@
                             <td><?php echo $valSqlKumpradaNew['newTotalHeads']; ?></td>
                             <td><?php echo $valSqlKumpradaNew['newTotalKilos']; ?></td>
                         </tr>
-                    <?php endif ?>
+
+                        <?php endif ?>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td ><center><button type="submit" name="search" class="btn btn-md btn-primary shadow-sm " > Submit</button></center> </td>
+                        </tr>
+                    
                 </tbody>
             </table>
 </div>
