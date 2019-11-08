@@ -1,5 +1,26 @@
 <?php include_once('header.php'); ?>
 
+<?php
+
+	if (isset($_POST['inv_submit'])) {
+		$date = $_POST['date'];
+		$farm = $_POST['farm'];
+		$ssheads = $_POST['ssheads'];
+		$sskilos = $_POST['sskilos'];
+		$tsheads = $_POST['tsheads'];
+		$tskilos = $_POST['tskilos'];
+		$sheads = $_POST['sheads'];
+		$skilos = $_POST['skilos'];
+		$sfeeds = $_POST['sfeeds'];
+		$rip = $_POST['rip'];
+		$total = $_POST['total'];
+
+		$sql = "INSERT INTO kapital VALUES (null, '$date', '$farm', '$ssheads', '$sskilos', '$tsheads', '$tskilos', '$sheads', '$skilos', '$sfeeds', '$rip', '$total', '2')";
+		$result = mysqli_query($link, $sql) or die('Error querying database CAPITAL.');
+	}
+
+?>
+
 <div class="container-fluid">
 	<label><STRONG>Capital</STRONG></label>
 <div class="row">

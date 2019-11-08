@@ -7,13 +7,31 @@
         $driver = $_POST['driver'];
         $farm = $_POST['farm'];
         $no_pigs = $_POST['no_pigs'];
-        $kilos = $_POST['kilos'];
-        $price = str_replace(',', '', $_POST['price']);
+        $pig_kilos = $_POST['pigkilo'];
+        $pig_price = str_replace(',', '', $_POST['pigprice']);
+
+        $feeds_kilo = $_POST['feedskilo'];
+        $feeds_price = str_replace(',', '', $_POST['feedsprice']);
+
         $is_paid = $_POST['is_paid'];
         // $expenses = $_POST['expenses'];
 
-        $sql = "INSERT INTO kumprada VALUES (null, '$date', '$driver', '$farm', '$no_pigs', '$kilos', '$price', '$is_paid')";
+        $sql = "INSERT INTO kumprada VALUES (null, '$date', '$driver', '$farm', '$no_pigs', '$pig_kilos', '$pig_price', '$feeds_kilo', '$feeds_price', '$is_paid')";
         $result = mysqli_query($link, $sql) or die('Error querying database.');
+
+        $ahente = $_POST['ahente'];
+        $aprice = $_POST['aprice'];
+        $sopprice = $_POST['sopprice'];
+        $rprice = $_POST['rprice'];
+        $dprice = $_POST['dprice'];
+        $lprice = $_POST['lprice'];
+        $tprice = $_POST['tprice'];
+        $eprice = $_POST['eprice'];
+
+
+
+        $esql = "INSERT INTO expenses VALUES (null, '$date', '$farm', '$ahente', '$aprice', '$sopprice', '$rprice', '$dprice', '$lprice', '$tprice', '$eprice')";
+        $eresult = mysqli_query($link, $esql) or die('Error querying database in expenses.');
 
         header('location:kumprada.php');
     }
@@ -25,11 +43,15 @@
         $driver = $_POST['driver'];
         $farm = $_POST['farm'];
         $no_pigs = $_POST['no_pigs'];
-        $kilos = $_POST['kilos'];
-        $price = str_replace(',', '', $_POST['price']);
+        
+        $pig_kilos = $_POST['pigkilo'];
+        $pig_price = str_replace(',', '', $_POST['pigprice']);
+
+        $feeds_kilo = $_POST['feedskilo'];
+        $feeds_price = str_replace(',', '', $_POST['feedsprice']);
 
 
-        $sql = "UPDATE kumprada SET date='$date', driver='$driver', farm='$farm', no_pigs='$no_pigs', kilos='$kilos', price='$price' WHERE id='$id'";
+        $sql = "UPDATE kumprada SET date='$date', driver='$driver', farm='$farm', no_pigs='$no_pigs', pig_kilo='$pig_kilos', pig_price='$pig_price', feeds_kilo='$feeds_kilo', feeds_price='$feeds_price' WHERE id='$id'";
         $result = mysqli_query($link, $sql) or die('Error querying database.');
 
         if ($getDate != 'null') {

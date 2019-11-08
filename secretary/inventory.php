@@ -40,6 +40,8 @@
 <br>
 
             <?php
+            $totalS=0;
+            $totalC=0;
                 if (isset($_POST['searchDate'])) {
                     $fromDate = $_POST['fromDate'];
                     $toDate = $_POST['toDate'];
@@ -106,11 +108,13 @@
                     <tr>
                     <td>
                         <?php foreach ($getDelivery as $key => $value) {
+                            $totalS = $value['totalSale'];
                             echo number_format($value['totalSale']);
                         } ?>
                     </td>
                     <td>
                         <?php foreach ($getCollection as $key => $value) {
+                            $totalC = $value['totalCollection'];
                             echo number_format($value['totalCollection']);
                         } ?>
                     </td>
@@ -135,9 +139,10 @@
                         } ?>
                     </td>
                     <td>
-                        <?php foreach ($getCollectibles as $key => $value) {
+                        <!-- <?php foreach ($getCollectibles as $key => $value) {
                             echo number_format($value['totalCollectibles']);
-                        } ?>
+                        } ?> -->
+                        <?php echo number_format($totalS - $totalC); ?>
                     </td>
                     <td>
                         <?php foreach ($getDelivery as $key => $value) {
@@ -146,7 +151,8 @@
                     </td>
                     <td>
                         <?php foreach ($getDelivery as $key => $value) {
-                            echo $inventoryKilos = number_format($value['overallKilos']);
+                            $inventoryKilos = $value['overallKilos'];
+                            echo number_format($value['overallKilos']);
                         } ?>
                     </td>
                     </tr>
@@ -162,15 +168,36 @@
 
             <?php
                 
-                $sqlKumpradaOld = "SELECT SUM(no_pigs) as totalHeads, SUM(kilos) as totalKilos FROM kumprada WHERE  date >= '$fromDate' AND date <= '$toDate'";
+                $sqlKumpradaOld = "SELECT SUM(no_pigs) as totalHeads, SUM(pig_kilo) as totalKilos FROM kumprada WHERE  date >= '$fromDate' AND date <= '$toDate'";
                 $getSqlKumpradaOld = mysqli_query($link, $sqlKumpradaOld);
                 $valSqlKumpradaOld = mysqli_fetch_assoc($getSqlKumpradaOld);
 
-                $sqlKumpradaNew = "SELECT SUM(no_pigs) as newTotalHeads, SUM(kilos) as newTotalKilos FROM kumprada WHERE date > '$toDate'";
+                $sqlKumpradaNew = "SELECT SUM(no_pigs) as newTotalHeads, SUM(pig_kilo) as newTotalKilos FROM kumprada WHERE date > '$toDate'";
                 $getSqlKumpradaNew = mysqli_query($link, $sqlKumpradaNew);
                 $valSqlKumpradaNew = mysqli_fetch_assoc($getSqlKumpradaNew);
 
+
+                $sqlKumpradaDate = "SELECT date, farm FROM kumprada WHERE date BETWEEN '$fromDate' AND '$toDate' ";
+                $getKumpradaDate = mysqli_query($link, $sqlKumpradaDate);
+                $datakum = mysqli_fetch_assoc($getKumpradaDate);
+
+                $sqlCapitalDate = "SELECT date FROM kapital";
+                $getCapitalDate = mysqli_query($link, $sqlCapitalDate);
+                $data = mysqli_fetch_assoc($getCapitalDate);
                 
+                
+                if ( !is_null($data)) {
+                    foreach ( $getKumpradaDate as $k => $kumpradaDate ) {
+                        if (in_array($kumpradaDate['date'], $getCapitalDate)) {
+                            var_dump('expression');
+                        }
+                    }
+                } else {
+                    $datekumprada = $datakum['date'];
+                    $farmkumprada = $datakum['farm'];
+                }
+
+                //var_dump($datekumprada);
             ?>
 
             <ul>
@@ -181,63 +208,87 @@
             </ul>
             
             <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <td></td>
-                    <td>TOTAL NO. OF HEADS</td>
-                    <td>TOTAL NO. OF KILOS</td>
-                </thead>
+            <form method="POST" action="<?php echo htmlspecialchars('../admin/capital.php'); ?>">
+                <input type="hidden" name="date" value="<?php echo $datekumprada; ?>">
+                <input type="hidden" name="farm" value="<?php echo $farmkumprada; ?>">
+                <table class="table table-bordered">
+                    <thead>
+                        <td></td>
+                        <td>TOTAL NO. OF HEADS</td>
+                        <td>TOTAL NO. OF KILOS</td>
+                    </thead>
 
-                <tbody>
-                    <tr>
-                        <td><b>STOCKYARDS SALIN</b></td>
-                        <td><input type="" name="" class="form-control" value="<?php echo $valSqlKumpradaOld['totalHeads']; ?>"></td>
-                        <td><input type="" name="" class="form-control" value="<?php echo $valSqlKumpradaOld['totalKilos']; ?>"></td>
-                    </tr>
-                    <tr>
-                        <td><b>TOTAL SALE</b></td>
-                        <td><input type="" name="" class="form-control" value="<?php echo $inventoryHeads; ?>"></td>
-                        <td><input type="" name="" class="form-control" value="<?php echo $inventoryKilos; ?>"></td>
-                    </tr>
-                    <tr>
-                        <td><b>SALIN</b></td>
-                        <td><input type="text" name="salinTH" class="form-control" value=""></td>
-                        <td><input type="text" name="salinTK" class="form-control" value=""></td>
-                    </tr>
-                    <tr>
-                        <td><b>RIP</b></td>
-                        <td><input type="text" name="rip" class="form-control" value=""></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"></td>
-                       
-                        <td></td>
-                    </tr>
-                    <?php if (!empty($valSqlKumpradaNew['newTotalHeads'])): ?>
+                    <tbody>
                         <tr>
-                            <td><b>NEW STOCK</b></td>
-                            <td><?php echo $valSqlKumpradaNew['newTotalHeads']; ?></td>
-                            <td><?php echo $valSqlKumpradaNew['newTotalKilos']; ?></td>
+                            <td><b>STOCKYARDS SALIN</b></td>
+                            <td><input type="" name="ssheads" class="form-control" value="<?php echo $valSqlKumpradaOld['totalHeads'] - $inventoryHeads; ?>"></td>
+                            <td><input type="" id="t1" name="sskilos" class="form-control autoSubtract" value="<?php echo $valSqlKumpradaOld['totalKilos']; ?>"></td>
                         </tr>
-
-                        <?php endif ?>
+                        <tr>
+                            <td><b>TOTAL SALE</b></td>
+                            <td><input type="" name="tsheads" class="form-control" value="<?php echo $inventoryHeads; ?>"></td>
+                            <td><input type="" id="t2" name="tskilos" class="form-control autoSubtract" value="<?php echo $inventoryKilos; ?>"></td>
+                        </tr>
+                         <tr>
+                            <td><b>SALIN</b></td>
+                            <td><input type="text" name="sheads" class="form-control" value=""></td>
+                            <td><input type="text" id="t3" name="skilos" class="form-control autoSubtract" value=""></td>
+                        </tr>
+                        <tr>
+                            <td><b>SALIN FEEDS</b></td>
+                            <td></td>
+                            <td><input type="text" name="sfeeds" class="form-control" value=""></td>
+                            
+                        </tr>
+                        <tr>
+                            <td><b>RIP</b></td>
+                            <td><input type="text" name="rip" class="form-control" value=""></td>
+                            <td></td>
+                        </tr>
                         <tr>
                             <td colspan="2"></td>
-                            <td ><center><button type="submit" name="search" class="btn btn-md btn-primary shadow-sm " > Submit</button></center> </td>
+                           
+                            <td>
+                                <input type="text" id="total" name="total" value="<?php echo intval($valSqlKumpradaOld['totalKilos']) - $inventoryKilos; ?>">
+                            </td>
                         </tr>
-                    
-                </tbody>
-            </table>
-</div>
+                        <?php if (!empty($valSqlKumpradaNew['newTotalHeads'])): ?>
+                            <tr>
+                                <td><b>NEW STOCK</b></td>
+                                <td><?php echo $valSqlKumpradaNew['newTotalHeads']; ?></td>
+                                <td><?php echo $valSqlKumpradaNew['newTotalKilos']; ?></td>
+                            </tr>
+
+                            <?php endif ?>
+                            <tr>
+                                <td colspan="2"></td>
+                                <td ><center><button type="submit" name="inv_submit" class="btn btn-md btn-primary shadow-sm " > Submit</button></center> </td>
+                            </tr>
+                        
+                    </tbody>
+                </table>
+            </form>
+        </div>
 
             <?php endif;?>
-
-
-
 
             </div>
         </div>
     </div>
 </div>
 <?php include_once('footer.php'); ?>
+<script type="text/javascript">
+    (function($) {
+        'use strict';
+
+        $('.autoSubtract').on('keyup', function(){
+            var t1 = $("#t1").val(),
+                t2 = $("#t2").val(),
+                t3 = $("#t3").val();
+
+            var total = t1 - t2 - t3;
+            $('#total').val(total);
+
+        });
+    })(jQuery);;
+</script>

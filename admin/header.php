@@ -37,9 +37,6 @@ background-color: #4f74df;
     tbody{
       color: black;
     }
-    .kumprada{
-      width: 450px;
-    }
   </style>
 
 </head>
@@ -86,7 +83,7 @@ background-color: #4f74df;
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-           <a class="collapse-item" href="kumprada.php"><i class="fas fa-fw fa-box"></i> Kumprada</a>
+           <!-- <a class="collapse-item" href="kumprada.php"><i class="fas fa-fw fa-box"></i> Kumprada</a> -->
             <a class="collapse-item" href="delivery.php"><i class="fas fa-fw fa-car"></i> Delivery</a>
             <a class="collapse-item" href="collections.php"><i class="fas fa-fw fa-hands"></i> Collections</a>
             <!-- <a class="collapse-item" href="collectibles.php"><i class="fas fa-fw fa-list"></i> Collectibles</a> -->
@@ -116,9 +113,9 @@ background-color: #4f74df;
             <hr class="sidebar-divider">
 
           <ul class="nav flex-column sub-menu">
-           <li class="nav-item hide-item <?php echo basename($_SERVER['PHP_SELF']) == 'kumprada.php' ? 'active' : ''; ?> d-none">
+           <!-- <li class="nav-item hide-item <?php echo basename($_SERVER['PHP_SELF']) == 'kumprada.php' ? 'active' : ''; ?> d-none">
               <a class="collapse-item _link" href="kumprada.php"><i class="fas fa-fw fa-box"></i> Kumprada </a>
-            </li>
+            </li> -->
             <li class="nav-item hide-item <?php echo basename($_SERVER['PHP_SELF']) == 'delivery.php' ? 'active' : ''; ?> d-none">
               <a class="collapse-item _link" href="delivery.php"><i class="fas fa-fw fa-car"></i> Delivery </a>
             </li>
@@ -172,16 +169,15 @@ background-color: #4f74df;
     <!-- Divider -->
   
   
+    <li class="nav-item">
+      <a class="nav-link" href="kumprada.php"><i class="fas fa-fw fa-box fa-sm fa-fw mr-2 text-gray-400"></i>
+        <span>Kumprada</span>
+      </a>
+    </li>
 
     <li class="nav-item">
       <a class="nav-link" href="bali.php"><i class="fas fa-fw fa-coins fa-sm fa-fw mr-2 text-gray-400"></i>
         <span>Bali</span>
-      </a>
-    </li>
-
-<li class="nav-item">
-      <a class="nav-link" href="capital.php"><i class="fas fa-fw fa-coins fa-sm fa-fw mr-2 text-gray-400"></i>
-        <span>Capital</span>
       </a>
     </li>
 

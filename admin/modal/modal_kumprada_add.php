@@ -28,15 +28,15 @@
             <div class="form-group form-inline">
                 <input class="form-control" type="text" placeholder="# of Pigs" name="no_pigs" value="" >
                  &nbsp;
-                <input class="form-control" type="text" placeholder="Kilos" name="fdkilos" value="" >
+                <input class="form-control" type="text" placeholder="Kilos" name="feedskilo" value="" >
             </div>
             <div class="form-group form-inline">
-                <input class="form-control" type="text" placeholder="Kilos" name="kilos" value="" >
+                <input class="form-control" type="text" placeholder="Kilos" name="pigkilo" value="" >
                  &nbsp;
-                 <input class="form-control" type="text" placeholder="Price" name="feedprice" value="" >
+                 <input class="form-control" type="text" placeholder="Price" name="feedsprice" value="" >
             </div>
             <div class="form-group form-inline">
-                <input class="form-control numberformat" type="text" placeholder="Price" name="price" value="" width="50%" >
+                <input class="form-control numberformat" type="text" placeholder="Price" name="pigprice" value="" width="50%" >
             </div>
             <div class="form-group">
                 <select class="form-control" name="is_paid" required>
@@ -49,43 +49,43 @@
             <b>EXPENSES</b>
           </div>
             <div class="form-inline form-group">
-                <input class="form-control" type="text" placeholder="Ahente" name="Ahente" value="" >
+                <input class="form-control" type="text" placeholder="Ahente" name="ahente" value="" >
                 &nbsp;
-                <input class="form-control" type="text" placeholder="Price" name="aprice" value="" >
+                <input class="form-control numberformat" type="text" placeholder="Price" name="aprice" value="" >
             </div>
             <div class="form-inline form-group">
-                <input class="form-control"  placeholder="SOP" name="Ahente" value="" disabled="">
+                <input class="form-control"  placeholder="SOP" value="" disabled="">
                 &nbsp;
-                <input class="form-control" type="text" placeholder="Price" name="sopprice" value="" >
+                <input class="form-control numberformat" type="text" placeholder="Price" name="sopprice" value="" >
 
             </div>
             <div class="form-inline form-group">
-                <input class="form-control"  placeholder="REYNAN" name="Ahente" value="" disabled="">
+                <input class="form-control"  placeholder="REYNAN" value="" disabled="">
                 &nbsp;
-                <input class="form-control" type="text" placeholder="Price" name="rprice" value="" >
+                <input class="form-control numberformat" type="text" placeholder="Price" name="rprice" value="" >
 
             </div>
             <div class="form-inline form-group">
-                <input class="form-control"  placeholder="Driver" name="Ahente" value="" disabled="">
+                <input class="form-control"  placeholder="Driver" alue="" disabled="">
                 &nbsp;
-                <input class="form-control" type="text" placeholder="Price" name="driverprice" value="" >
+                <input class="form-control numberformat" type="text" placeholder="Price" name="dprice" value="" >
             </div>
             <div class="form-inline form-group">
-                <input class="form-control"  placeholder="Labor" name="Ahente" value="" disabled="">
+                <input class="form-control"  placeholder="Labor" value="" disabled="">
                 &nbsp;
-                <input class="form-control" type="text" placeholder="Price" name="lprice" value="" >
+                <input class="form-control numberformat" type="text" placeholder="Price" name="lprice" value="" >
 
             </div>
             <div class="form-inline form-group">
-                <input class="form-control"  placeholder="Truck" name="Ahente" value="" disabled="">
+                <input class="form-control"  placeholder="Truck" value="" disabled="">
                 &nbsp;
-                <input class="form-control" type="text" placeholder="Price" name="tprice" value="" >
+                <input class="form-control numberformat" type="text" placeholder="Price" name="tprice" value="" >
 
             </div>
             <div class="form-inline form-group">
-                <input class="form-control"  placeholder="Expenses" name="Ahente" value="" disabled="">
+                <input class="form-control"  placeholder="Expenses" value="" disabled="">
                 &nbsp;
-                <input class="form-control" type="text" placeholder="Price" name="eprice" value="" >
+                <input class="form-control numberformat" type="text" placeholder="Price" name="eprice" value="" >
 
             </div>
 

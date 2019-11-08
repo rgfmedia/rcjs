@@ -1,11 +1,12 @@
 <?php
 
-    if (isset($_GET['date'])) {
-        $getDate = $_GET['date'];
-        $sql = "SELECT * FROM kumprada WHERE date = '$getDate' ORDER BY id DESC";
-    } else {
-        $sql = "SELECT * FROM kumprada WHERE date = '$date' ORDER BY id DESC";
-    }
+    // if (isset($_GET['date'])) {
+    //     $getDate = $_GET['date'];
+    //     $sql = "SELECT * FROM kumprada WHERE date = '$getDate' ORDER BY id DESC";
+    // } else {
+    //     $sql = "SELECT * FROM kumprada WHERE date = '$date' ORDER BY id DESC";
+    // }
+    $sql = "SELECT * FROM kumprada ORDER BY id DESC";
 
 $result = mysqli_query($link, $sql) or die('Error querying database.');
 $data = mysqli_fetch_assoc($result);
@@ -16,7 +17,7 @@ $data = mysqli_fetch_assoc($result);
     No Records Found.
 <?php else: ?>
 <div class="table-responsive">
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="dataTable">
         <thead>
             <tr>
                 <th>DATE</th>
@@ -25,8 +26,10 @@ $data = mysqli_fetch_assoc($result);
                 <th>NO. OF PIGS</th>
                 <th>KILOS</th>
                 <th>PRICE</th>
+                <th>FEEDS KILOS</th>
+                <th>FEEDS PRICE</th>
                 <th>TOTAL</th>
-                <th>OVERALL TOTAL</th>
+                <!-- <th>OVERALL TOTAL</th> -->
                 <th>ACTION</th>
             </tr>
         </thead>
@@ -38,7 +41,8 @@ $data = mysqli_fetch_assoc($result);
                 $name='';
                 $name2='';
                 $name1 = array();
-                $overalltotal = array();
+                //$overalltotal = array();
+                $overalltotal=0;
                 $totalamount=0;
                 $keyrow = array();
                 foreach ($result as $key => $value) { 
@@ -51,12 +55,13 @@ $data = mysqli_fetch_assoc($result);
                             foreach ($name1 as $k => $names) {
                                 if ($names['driver'] == $value['driver']) {
                                     $pskey++;
-                                    $totalamount += $names['price'] * $names['kilos'];
+                                    $totalamount += $names['pig_price'] * $names['pig_kilo'] + $names['feeds_price'];
                                     unset($name1[$k]);
                                 } else { break; }
                             }
 
-                            $overalltotal[$key] = $totalamount;
+                            //$overalltotal[$key] = $totalamount;
+                            $overalltotal += $totalamount;
                             $keyrow[$key] = $pskey;
 
                         }
@@ -68,7 +73,7 @@ $data = mysqli_fetch_assoc($result);
                 <tr>
                     <?php if ($name != $value['driver']): ?>
                     <td rowspan="<?php echo $keyrow[$key]; ?>">
-                        <?php echo date('F d, Y' ,strtotime($value['date'])); ?>
+                        <?php echo date('m/d/Y' ,strtotime($value['date'])); ?>
                     </td>
                     <td rowspan="<?php echo $keyrow[$key]; ?>"  >
                         <?php echo $value['driver']; ?>
@@ -76,14 +81,28 @@ $data = mysqli_fetch_assoc($result);
                     <?php endif; ?>
                     <td <?php echo ($value['is_paid']==0)?'style=background:#ff000096;color:#ffff':'style=background:#0080008a;color:#ffff'; ?> ><?php echo $value['farm']; ?></td>
                     <td <?php echo ($value['is_paid']==0)?'style=background:#ff000096;color:#ffff':'style=background:#0080008a;color:#ffff'; ?> ><?php echo ($value['no_pigs'] == 0) ? '': $value['no_pigs']; ?></td>
-                    <td <?php echo ($value['is_paid']==0)?'style=background:#ff000096;color:#ffff':'style=background:#0080008a;color:#ffff'; ?> ><?php echo number_format($value['kilos'],2); ?></td>
-                    <td <?php echo ($value['is_paid']==0)?'style=background:#ff000096;color:#ffff':'style=background:#0080008a;color:#ffff'; ?> ><?php echo '&#x20b1; '. number_format($value['price'],2); ?></td>
-                    <td <?php echo ($value['is_paid']==0)?'style=background:#ff000096;color:#ffff':'style=background:#0080008a;color:#ffff'; ?> ><?php echo '&#x20b1; '. number_format($value['kilos'] * $value['price'],2); ?></td>
-                    <?php if ($name != $value['driver']): ?>
+                    <td <?php echo ($value['is_paid']==0)?'style=background:#ff000096;color:#ffff':'style=background:#0080008a;color:#ffff'; ?> ><?php echo number_format($value['pig_kilo'],2); ?></td>
+                    <td <?php echo ($value['is_paid']==0)?'style=background:#ff000096;color:#ffff':'style=background:#0080008a;color:#ffff'; ?> ><?php echo '&#x20b1; '. number_format($value['pig_price'],2); ?></td>
+
+                    <td <?php echo ($value['is_paid']==0)?'style=background:#ff000096;color:#ffff':'style=background:#0080008a;color:#ffff'; ?> ><?php echo $value['feeds_kilo'] . ' Kg'; ?></td>
+                    <td <?php echo ($value['is_paid']==0)?'style=background:#ff000096;color:#ffff':'style=background:#0080008a;color:#ffff'; ?> ><?php echo '&#x20b1; '. number_format($value['feeds_price'],2); ?></td>
+
+                    <td <?php echo ($value['is_paid']==0)?'style=background:#ff000096;color:#ffff':'style=background:#0080008a;color:#ffff'; ?> ><?php echo '&#x20b1; '. number_format($value['pig_kilo'] * $value['pig_price'] + $value['feeds_price'],2); ?></td>
+
+                    <!-- <?php if ($key == 0): ?>
+                        <td>
+                            <?php echo '&#x20b1; '. number_format($overalltotal,2); ?>
+                        </td>                        
+                    <?php else: ?>
+                        <td></td>
+                    <?php endif ?> -->
+
+
+                    <!-- <?php if ($name != $value['driver']): ?>
                         <td rowspan="<?php echo $keyrow[$key]; ?>">
                             <?php echo '&#x20b1; '. number_format($overalltotal[$key],2); ?>
                         </td>
-                    <?php endif; ?>
+                    <?php endif; ?> -->
                     <td>
                         <center>
                             <button class="btn btn-primary btn-sm" data-namekey="<?php  echo $value['id']; ?>" data-toggle="modal" data-target="#kumpradaModalEdit">
@@ -101,5 +120,7 @@ $data = mysqli_fetch_assoc($result);
             ?>
         </tbody>
     </table>
+    <br>
+    Overall Total = <?php echo '&#x20b1; '. number_format($overalltotal,2); ?>
 </div>
 <?php endif; ?>

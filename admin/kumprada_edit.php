@@ -7,14 +7,14 @@
 
 ?>
 
-<form class="" action="kumprada.php" method="post">
+<form class="form-group" action="kumprada.php" method="post">
     <input type="hidden" name="getDate" value="<?php echo $_GET['date']; ?>">
         <div class="modal-body">
             <?php foreach ($result as $key => $value): ?>
                 <input type="hidden" name="id" value="<?php echo $id = $value['id']; ?>">
                 <input type="hidden" name="is_paid" value="<?php echo $is_paid = $value['is_paid']; ?>">
                 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <input class="form-control" type="date" placeholder="Enter Date" name="date" value="<?php echo $value['date']; ?>" >
                 </div>
                 <div class="form-group">
@@ -27,11 +27,45 @@
                     <input class="form-control" type="text" placeholder="Number of Pigs" name="no_pigs" value="<?php echo $value['no_pigs']; ?>" >
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Kilos" name="kilos" value="<?php echo $value['kilos']; ?>" >
+                    <input class="form-control" type="text" placeholder="Kilos" name="Pig Kilo" value="<?php echo $value['pig_kilo']; ?>" >
                 </div>
                 <div class="form-group">
-                    <input class="form-control numberformat" type="text" placeholder="Price" name="price" value="<?php echo number_format($value['price']); ?>" >
+                    <input class="form-control numberformat" type="text" placeholder="Pig Price" name="price" value="<?php echo number_format($value['pig_price']); ?>" >
                 </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="Kilos" name="Feeds Kilo" value="<?php echo $value['feeds_kilo']; ?>" >
+                </div>
+                <div class="form-group">
+                    <input class="form-control numberformat" type="text" placeholder="Feeds Price" name="price" value="<?php echo number_format($value['feeds_price']); ?>" >
+                </div> -->
+                <div class="form-group form-inline ">
+                <input class="form-control" type="date" placeholder="Date" name="date" value="<?php echo $value['date']; ?>">
+                &nbsp; &nbsp;
+                <input class="form-control" type="text" placeholder="Enter Farm name" name="farm" value="<?php echo $value['farm']; ?>" >
+
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="Driver" name="driver" value="<?php echo $value['driver']; ?>" width="80%" >
+            </div>
+            <div class="form-group form-inline">
+                <input class="form-control" type="text" placeholder="Pigs" value="" disabled="">
+                 &nbsp;
+                <input class="form-control" type="text" placeholder="Feeds" value="" disabled="">
+            </div>
+            <div class="form-group form-inline">
+                <input class="form-control" type="text" placeholder="# of Pigs" name="no_pigs" value="<?php echo $value['no_pigs']; ?>" >
+                 &nbsp;
+                <input class="form-control" type="text" placeholder="Kilos" name="feedskilo" value="<?php echo $value['feeds_kilo']; ?>" >
+            </div>
+            <div class="form-group form-inline">
+                <input class="form-control" type="text" placeholder="Kilos" name="pigkilo" value="<?php echo $value['pig_kilo']; ?>" >
+                 &nbsp;
+                 <input class="form-control" type="text" placeholder="Price" name="feedsprice" value="<?php echo number_format($value['feeds_price']); ?>" >
+            </div>
+            <div class="form-group form-inline">
+                <input class="form-control numberformat" type="text" placeholder="Price" name="pigprice" value="<?php echo number_format($value['pig_price']); ?>" width="50%" >
+            </div>
+            
             <?php endforeach; ?>
         </div>
         <div class="modal-footer">
