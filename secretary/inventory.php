@@ -185,8 +185,6 @@
                 $getCapitalDate = mysqli_query($link, $sqlCapitalDate);
                 $data = mysqli_fetch_assoc($getCapitalDate);
                 
-                asdasdsadsad asdas 
-                asdasdsadsad
                 if ( !is_null($data)) {
                     foreach ( $getKumpradaDate as $k => $kumpradaDate ) {
                         if (in_array($kumpradaDate['date'], $getCapitalDate)) {
