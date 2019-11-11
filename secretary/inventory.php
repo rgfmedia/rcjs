@@ -5,6 +5,19 @@
 
 
         <div class="card-header ">
+            <?php if (isset($_GET['success'])): ?>
+                <?php if ($_GET['success'] === 'true'): ?>
+                    <div class="alert alert-success">
+                        <strong>Saved!</strong>
+                        Ok na brad!wahahahah
+                    </div>
+                <?php elseif ($_GET['success'] === 'failed'): ?>
+                    <div class="alert alert-danger">
+                        <strong>Something went wrong!</strong>
+                        Wla masud sa ranged date ang kumprada or walay kumprada value.
+                    </div>
+                <?php endif; ?>
+             <?php endif; ?>
              <h6 class=" text-primary"><i class="fas fa-fw fa-home"></i> Inventory Records</h6>
         </div>
 
@@ -120,6 +133,7 @@
                     </td>
                     <td>
                         <?php foreach ($getCollection as $key => $value) {
+                            $remittance = $value['totalRemittance'];
                             echo number_format($value['totalRemittance']);
                         } ?>
                     </td>
@@ -130,6 +144,7 @@
                     </td>
                     <td>
                         <?php foreach ($getBali as $key => $value) {
+                            $bali_amnt = $value['baliAmount'];
                             echo number_format($value['baliAmount']);
                         } ?>
                     </td>
@@ -142,7 +157,10 @@
                         <!-- <?php foreach ($getCollectibles as $key => $value) {
                             echo number_format($value['totalCollectibles']);
                         } ?> -->
-                        <?php echo number_format($totalS - $totalC); ?>
+                        <?php
+                            $collectible = $totalS - $totalC;
+                            echo number_format($collectible);
+                        ?>
                     </td>
                     <td>
                         <?php foreach ($getDelivery as $key => $value) {
@@ -159,9 +177,9 @@
                 </tbody>
             </table>
         </div>
-            <ul>
+            <!-- <ul>
                 <li>Collectibles = SALE - COLLECTIONS</li>
-            </ul>
+            </ul> -->
             <br>
             <hr>
             <br>
@@ -185,31 +203,41 @@
                 $getCapitalDate = mysqli_query($link, $sqlCapitalDate);
                 $data = mysqli_fetch_assoc($getCapitalDate);
                 
+                $storeData = array();
+                foreach ($getCapitalDate as $key => $value) {
+                    $storeData[$key] = $value['date'];
+                }
+                
                 if ( !is_null($data)) {
                     foreach ( $getKumpradaDate as $k => $kumpradaDate ) {
-                        if (in_array($kumpradaDate['date'], $getCapitalDate)) {
-                            var_dump('expression');
+                        if (!in_array($kumpradaDate['date'], $storeData)) {
+                            $datekumprada = $kumpradaDate['date'];
+                            break;
                         }
                     }
                 } else {
                     $datekumprada = $datakum['date'];
-                    $farmkumprada = $datakum['farm'];
+                    
                 }
 
-                //var_dump($datekumprada);
+                
             ?>
 
-            <ul>
+            <!-- <ul>
                 <li>Stockyards Salin = KUMPRADA - TOTAL SALE</li>
                 <li>Total kilos dli eh apil ang FEEDS</li>
                 <li>Ang SUBMIT mo adto na sa ADMIN sa KAPITAL mao nai mo adto sa ubos sa KAPITAL nga page <br> 
                 pareha rag porma then every submit sa is 1 Transaction.</li>
-            </ul>
+            </ul> -->
             
             <div class="table-responsive">
-            <form method="POST" action="<?php echo htmlspecialchars('../admin/capital.php'); ?>">
+            <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                 <input type="hidden" name="date" value="<?php echo $datekumprada; ?>">
-                <input type="hidden" name="farm" value="<?php echo $farmkumprada; ?>">
+                <input type="hidden" name="remittance" value="<?php echo $remittance; ?>">
+                <input type="hidden" name="bali" value="<?php echo $bali_amnt; ?>">
+                <input type="hidden" name="collectible" value="<?php echo $collectible; ?>">
+
+                
                 <table class="table table-bordered">
                     <thead>
                         <td></td>
@@ -275,7 +303,65 @@
         </div>
     </div>
 </div>
+<?php
+
+    if (isset($_POST['inv_submit'])) {
+        $date = $_POST['date'];
+        
+        $ssheads = $_POST['ssheads'];
+        $sskilos = $_POST['sskilos'];
+        $tsheads = $_POST['tsheads'];
+        $tskilos = $_POST['tskilos'];
+        $sheads = $_POST['sheads'];
+        $skilos = $_POST['skilos'];
+        $sfeeds = $_POST['sfeeds'];
+        $rip = $_POST['rip'];
+        $total = $_POST['total'];
+
+        $remittance = $_POST['remittance'];
+        $bali = $_POST['bali'];
+        $collectible = $_POST['collectible'];
+
+        $sql = "SELECT transaction FROM kapital ORDER BY id DESC";
+        $result = mysqli_query($link, $sql) or die('Error querying database CAPITAL.');
+        $getTransac = mysqli_fetch_assoc($result);
+
+        $sqlKumprada = "SELECT * FROM kumprada WHERE date = '$date'";
+        $resultKumprada = mysqli_query($link, $sqlKumprada) or die('Error querying database KUMPRADA.');
+        $getKump = mysqli_fetch_assoc($resultKumprada);
+        
+        $link = $_SERVER['PHP_SELF'];
+        if (!is_null($getKump)) {
+        
+            if (!is_null($getTransac)) {
+                $transacNo = $getTransac['transaction'] + 1;
+                foreach ($resultKumprada as $key => $value) {
+                    $farm = $value['farm'];
+                    $sql = "INSERT INTO kapital VALUES (null, '$date', '$farm', '$ssheads', '$sskilos', '$tsheads', '$tskilos', '$sheads', '$skilos', '$sfeeds', '$rip', '$total', '$remittance', '$bali', '$collectible', '$transacNo')";
+                    $result = mysqli_query($link, $sql) or die('Error querying database CAPITAL.');
+                    
+                }
+                
+            } else {
+
+                foreach ($resultKumprada as $key => $value) {
+                    $farm = $value['farm'];
+                    $sql = "INSERT INTO kapital VALUES (null, '$date', '$farm', '$ssheads', '$sskilos', '$tsheads', '$tskilos', '$sheads', '$skilos', '$sfeeds', '$rip', '$total', '$remittance', '$bali', '$collectible', '1')";
+                    $result = mysqli_query($link, $sql) or die('Error querying database CAPITAL.');
+
+                }
+            }
+
+            header('location:'.$link.'?success=true');
+        } else {
+            header('location:'.$link.'?success=failed');
+        }
+        
+        
+    }
+?>
 <?php include_once('footer.php'); ?>
+
 <script type="text/javascript">
     (function($) {
         'use strict';

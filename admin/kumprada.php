@@ -16,9 +16,6 @@
         $is_paid = $_POST['is_paid'];
         // $expenses = $_POST['expenses'];
 
-        $sql = "INSERT INTO kumprada VALUES (null, '$date', '$driver', '$farm', '$no_pigs', '$pig_kilos', '$pig_price', '$feeds_kilo', '$feeds_price', '$is_paid')";
-        $result = mysqli_query($link, $sql) or die('Error querying database.');
-
         $ahente = $_POST['ahente'];
         $aprice = $_POST['aprice'];
         $sopprice = $_POST['sopprice'];
@@ -27,6 +24,13 @@
         $lprice = $_POST['lprice'];
         $tprice = $_POST['tprice'];
         $eprice = $_POST['eprice'];
+        $total_expenses = $aprice + $sopprice + $rprice + $dprice + $lprice + $tprice + $eprice;
+
+
+        $sql = "INSERT INTO kumprada VALUES (null, '$date', '$driver', '$farm', '$no_pigs', '$pig_kilos', '$pig_price', '$feeds_kilo', '$feeds_price', '$total_expenses', '$is_paid')";
+        $result = mysqli_query($link, $sql) or die('Error querying database.');
+
+        
 
 
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2019 at 09:20 AM
+-- Generation Time: Nov 11, 2019 at 02:20 AM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.2
 
@@ -436,7 +436,8 @@ CREATE TABLE `expenses` (
 --
 
 INSERT INTO `expenses` (`id`, `date`, `farm`, `ahente_name`, `ahente_price`, `SOP`, `reynan`, `driver`, `labor`, `truck`, `expenses`) VALUES
-(1, '2019-11-08', 'Trome', 'CHoOx', 200, 201, 202, 203, 204, 205, 206);
+(1, '2019-11-08', 'Trome', 'CHoOx', 200, 201, 202, 203, 204, 205, 206),
+(2, '2019-11-01', 'Dona Farm', 'CHoOx 2', 200, 100, 100, 100, 100, 100, 100);
 
 -- --------------------------------------------------------
 
@@ -457,6 +458,9 @@ CREATE TABLE `kapital` (
   `s_feeds` int(10) NOT NULL,
   `rip` int(10) NOT NULL,
   `total` int(10) NOT NULL,
+  `remittance` int(10) NOT NULL,
+  `bali` int(10) NOT NULL,
+  `collectible` int(10) NOT NULL,
   `transaction` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -464,10 +468,11 @@ CREATE TABLE `kapital` (
 -- Dumping data for table `kapital`
 --
 
-INSERT INTO `kapital` (`id`, `date`, `farm`, `ss_heads`, `ss_kilos`, `ts_heads`, `ts_kilos`, `s_heads`, `s_kilos`, `s_feeds`, `rip`, `total`, `transaction`) VALUES
-(1, '2019-11-05', 'Trome', 24, 324, 24, 2412, 124, 241, 241, 3241, 1231, 1),
-(2, '2019-11-01', '<br />\r\n<b>Notice</b>:  Undefined variable: farmku', 79, 3000, 126, 12600, 0, 0, 0, 0, -9600, 2),
-(3, '2019-11-01', 'Trome', 79, 3000, 126, 12600, 0, 0, 0, 0, -9600, 2);
+INSERT INTO `kapital` (`id`, `date`, `farm`, `ss_heads`, `ss_kilos`, `ts_heads`, `ts_kilos`, `s_heads`, `s_kilos`, `s_feeds`, `rip`, `total`, `remittance`, `bali`, `collectible`, `transaction`) VALUES
+(1, '2019-11-01', 'Trome', 89, 4000, 126, 12600, 0, 0, 0, 0, -8600, 344406, 11500, 902994, 1),
+(2, '2019-11-01', 'Dona Farm', 89, 4000, 126, 12600, 0, 0, 0, 0, -8600, 344406, 11500, 902994, 1),
+(3, '2019-11-03', 'Camlla', 89, 4000, 126, 12600, 0, 0, 0, 0, -8600, 344406, 11500, 902994, 2),
+(4, '2019-11-08', 'Trome', 89, 4000, 126, 12600, 0, 0, 0, 0, -8600, 344406, 11500, 902994, 3);
 
 -- --------------------------------------------------------
 
@@ -485,6 +490,7 @@ CREATE TABLE `kumprada` (
   `pig_price` int(30) NOT NULL,
   `feeds_kilo` int(10) NOT NULL,
   `feeds_price` int(10) NOT NULL,
+  `total_expenses` int(10) NOT NULL,
   `is_paid` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -492,10 +498,11 @@ CREATE TABLE `kumprada` (
 -- Dumping data for table `kumprada`
 --
 
-INSERT INTO `kumprada` (`id`, `date`, `driver`, `farm`, `no_pigs`, `pig_kilo`, `pig_price`, `feeds_kilo`, `feeds_price`, `is_paid`) VALUES
-(1, '2019-11-01', 'Hilario', 'Trome', 40, 1000, 10000, 50, 1200, 0),
-(2, '2019-11-03', 'Bintoy', 'Camlla', 150, 1000, 10000, 1, 0, 0),
-(3, '2019-11-08', 'Ronny', 'Trome', 15, 1000, 10000, 50, 1200, 0);
+INSERT INTO `kumprada` (`id`, `date`, `driver`, `farm`, `no_pigs`, `pig_kilo`, `pig_price`, `feeds_kilo`, `feeds_price`, `total_expenses`, `is_paid`) VALUES
+(1, '2019-11-01', 'Hilario', 'Trome', 40, 1000, 10000, 50, 1200, 1500, 0),
+(2, '2019-11-03', 'Bintoy', 'Camlla', 150, 1000, 10000, 1, 0, 0, 0),
+(3, '2019-11-08', 'Ronny', 'Trome', 15, 1000, 10000, 50, 1200, 0, 0),
+(4, '2019-11-01', 'Dona', 'Dona Farm', 10, 1000, 10000, 50, 1200, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -675,19 +682,19 @@ ALTER TABLE `employee`
 -- AUTO_INCREMENT for table `expenses`
 --
 ALTER TABLE `expenses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `kapital`
 --
 ALTER TABLE `kapital`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `kumprada`
 --
 ALTER TABLE `kumprada`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `pig_stocks`

@@ -2,7 +2,7 @@
   'use strict';
 
     $('.numberformat').on('keyup', function(event){
-      console.log('asd');
+      
         if (event.which >= 37 && event.which <= 40) return;
         var x = $(this).val();
         $(this).val(addCommas(x));
